@@ -8,11 +8,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, reactive, onBeforeMount } from 'vue';
 import TodoHeader from '@/components/TodoHeader.vue';
+import TodoFooter from '@/components/TodoFooter.vue';
 import TodoInput from '@/components/TodoInput.vue';
 import TodoList from '@/components/TodoList.vue';
-import TodoFooter from '@/components/TodoFooter.vue';
+import TodoItem from "@/types/TodoItem";
 
 export default defineComponent({
   name: 'App',
@@ -21,7 +22,22 @@ export default defineComponent({
     TodoInput,
     TodoList,
     TodoFooter
-  }
+  },
+  setup() {
+    const todoItems = reactive<TodoItem[]>([]);
+    onBeforeMount(() => {
+      if (localStorage.length > 0) {
+        for (var i = 0; i < localStorage.length; i++) {
+          const storageKey = localStorage.key(i) as string;
+          const itemJson = localStorage.getItem(storageKey) as string | null;
+          if (itemJson) {
+            todoItems.push(JSON.parse(itemJson));
+          } //if
+        } //for
+      } //if
+    });
+    return { todoItems };
+  }, //setup
 });
 </script>
 
