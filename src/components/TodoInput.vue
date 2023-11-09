@@ -9,10 +9,9 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import TodoItem from '@/types/TodoItem';
 
 const newTodoItem = ref("")
-const emit = defineEmits(["input:todo"])
+const emit = defineEmits(["input:todo","add:todo"])
 
 const handleInput = (event: Event) => {
     const todoText = (event.target as HTMLInputElement).value
@@ -22,8 +21,7 @@ const handleInput = (event: Event) => {
 }
 const addTodo = () => {
     const todoItem = newTodoItem.value
-    const todoItemObj: TodoItem = {completed: false, item:todoItem}
-    localStorage.setItem(todoItem, JSON.stringify(todoItemObj))
+    emit("add:todo", todoItem)
     clearInput()
 }
 const clearInput = () => {
