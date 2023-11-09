@@ -18,7 +18,10 @@ import TodoItem from '@/types/TodoItem'
 import { ref, PropType } from 'vue'
 
 const props = defineProps({
-    todosArray: { type: Array as PropType<TodoItem[]>, required: true }
+    todosArray: { 
+        type: Array as PropType<TodoItem[]>, 
+        required: true 
+    }
 })
 const todoItems = ref<TodoItem[]>([])
 
