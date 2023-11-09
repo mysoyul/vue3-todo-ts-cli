@@ -3,7 +3,8 @@
     <TodoHeader></TodoHeader>
     <TodoInput @add:todo="addTodo"></TodoInput>
     <TodoList :todos-array="todoItems" 
-              @remove:todo="removeTodo"></TodoList>
+      @remove:todo="removeTodo"
+      @toggle:todo="toggleTodo"></TodoList>
     <TodoFooter></TodoFooter>
   </div>
 </template>
@@ -48,8 +49,16 @@ export default defineComponent({
     const removeTodo = (todoItem: string, index: number) => {
       localStorage.removeItem(todoItem)
       todoItems.splice(index, 1)
-    }
-    return { todoItems, addTodo, removeTodo };
+    }; //removeTodo
+
+    const toggleTodo = (todoItem: TodoItem, index: number) => {
+      const { completed, item } = todoItem;
+      todoItems[index].completed = !completed;
+      localStorage.removeItem(item);
+      localStorage.setItem(item, JSON.stringify(todoItems[index]));
+    }; //toggleTodo
+
+    return { todoItems, addTodo, removeTodo, toggleTodo };
   }, //setup
 });
 </script>

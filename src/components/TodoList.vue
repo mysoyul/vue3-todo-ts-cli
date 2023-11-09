@@ -3,7 +3,7 @@
         <ul>
             <li v-for="(todo, idx) in props.todosArray" :key="idx" class="shadow">
                 <i class="fas fa-check checkBtn" :class="{ checkBtnCompleted: todo.completed }"
-                    @click="toggleComplete(todo)"></i>
+                    @click="toggleComplete(todo, idx)"></i>
                 {{ todo.item }}
                 <span class="removeBtn" @click="removeTodo(todo.item, idx)">
                     <i class="fas fa-trash-alt"></i>
@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import TodoItem from '@/types/TodoItem'
-import { ref, PropType } from 'vue'
+import { PropType } from 'vue'
 
 const props = defineProps({
     todosArray: { 
@@ -23,19 +23,15 @@ const props = defineProps({
         required: true 
     }
 })
-const emit = defineEmits(["remove:todo"])
+const emit = defineEmits(["remove:todo","toggle:todo"])
 
 const removeTodo = (todoItem: string, index: number) => {
     emit('remove:todo', todoItem, index)
 }
 
-const toggleComplete = (todoItem: TodoItem) => {
-    const { completed, item } = todoItem;
-    todoItem.completed = !completed;
-    localStorage.removeItem(item);
-    localStorage.setItem(item, JSON.stringify(todoItem));
+const toggleComplete = (todoItem: TodoItem, index: number) => {
+    emit('toggle:todo', todoItem, index)
 }
-
 
 </script>
 
