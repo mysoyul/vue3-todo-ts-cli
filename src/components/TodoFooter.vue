@@ -5,8 +5,9 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
     emits:  ['clear:todo'],
     // { emit } - SetupContext 타입의 property
     setup(props, { emit }) {
@@ -17,7 +18,7 @@ export default {
             clearTodo
         }
     }
-}
+})
 </script>
 
 <style scoped>
