@@ -7,9 +7,11 @@
 <script lang="ts">
 
 export default {
-    setup() {
+    emits:  ['clear:todo'],
+    // { emit } - SetupContext 타입의 property
+    setup(props, { emit }) {
         const clearTodo = () => {
-            localStorage.clear()
+            emit('clear:todo')
         }
         return {
             clearTodo
