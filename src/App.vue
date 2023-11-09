@@ -2,7 +2,7 @@
   <div id="app">
     <TodoHeader></TodoHeader>
     <TodoInput></TodoInput>
-    <TodoList></TodoList>
+    <TodoList :todos-array="todoItems"></TodoList>
     <TodoFooter></TodoFooter>
   </div>
 </template>
@@ -25,6 +25,7 @@ export default defineComponent({
   },
   setup() {
     const todoItems = reactive<TodoItem[]>([]);
+
     onBeforeMount(() => {
       if (localStorage.length > 0) {
         for (var i = 0; i < localStorage.length; i++) {

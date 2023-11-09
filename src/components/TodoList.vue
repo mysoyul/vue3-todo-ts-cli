@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <li v-for="(todo, idx) in todoItems" :key="idx" class="shadow">
+            <li v-for="(todo, idx) in props.todosArray" :key="idx" class="shadow">
                 <i class="fas fa-check checkBtn" :class="{ checkBtnCompleted: todo.completed }"
                     @click="toggleComplete(todo)"></i>
                 {{ todo.item }}
@@ -15,19 +15,12 @@
 
 <script setup lang="ts">
 import TodoItem from '@/types/TodoItem'
-import { ref, onBeforeMount } from 'vue'
+import { ref, PropType } from 'vue'
 
-const todoItems = ref<TodoItem[]>([])
-
-onBeforeMount(() => {
-    if (localStorage.length > 0) {
-        for (var i = 0; i < localStorage.length; i++) {
-            const storageValue = localStorage.key(i) as string
-            const itemJson = localStorage.getItem(storageValue);
-            todoItems.value.push(JSON.parse(itemJson as string));
-        }
-    }
+const props = defineProps({
+    todosArray: { type: Array as PropType<TodoItem[]>, required: true }
 })
+const todoItems = ref<TodoItem[]>([])
 
 const removeTodo = (todoItem: string, index: number) => {
     localStorage.removeItem(todoItem)
@@ -40,8 +33,6 @@ const toggleComplete = (todoItem: TodoItem) => {
     localStorage.removeItem(item);
     localStorage.setItem(item, JSON.stringify(todoItem));
 }
-
-
 
 
 </script>
