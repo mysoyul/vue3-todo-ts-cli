@@ -17,11 +17,11 @@ const storage = {
     }
 }
 
-export type State = { 
-    todoItems: TodoItem[] 
+export type State = {
+    todoItems: TodoItem[]
 };
-const state: State = { 
-    todoItems: storage.fetch() 
+const state: State = {
+    todoItems: storage.fetch()
 };
 
 export const store = createStore({
@@ -29,7 +29,11 @@ export const store = createStore({
         [createLogger()] : [],
     state,
     mutations: {
-
+        addTodo(state: State, todoItem:string) {
+            const obj = { completed: false, item: todoItem };
+            localStorage.setItem(todoItem, JSON.stringify(obj));
+            state.todoItems.push(obj);
+        },
     },
     getters: {
 
