@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput @add:todo="addTodo"></TodoInput>
-    <TodoList :todos-array="todoItems" @remove:todo="removeTodo" @toggle:todo="toggleTodo"></TodoList>
+    <TodoInput></TodoInput>
+    <TodoList @remove:todo="removeTodo" @toggle:todo="toggleTodo"></TodoList>
     <TodoFooter @clear:todo="clearTodo"></TodoFooter>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, onBeforeMount } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import TodoHeader from '@/components/TodoHeader.vue';
 import TodoFooter from '@/components/TodoFooter.vue';
 import TodoInput from '@/components/TodoInput.vue';
@@ -25,24 +25,6 @@ export default defineComponent({
   },
   setup() {
     const todoItems = reactive<TodoItem[]>([]);
-
-    onBeforeMount(() => {
-      if (localStorage.length > 0) {
-        for (var i = 0; i < localStorage.length; i++) {
-          const storageKey = localStorage.key(i) as string;
-          const itemJson = localStorage.getItem(storageKey) as string | null;
-          if (itemJson) {
-            todoItems.push(JSON.parse(itemJson));
-          } //if
-        } //for
-      } //if
-    });
-
-    const addTodo = (todoItemStr: string) => {
-      const todoItemObj: TodoItem = { completed: false, item: todoItemStr };
-      localStorage.setItem(todoItemStr, JSON.stringify(todoItemObj));
-      todoItems.push(todoItemObj);
-    };//addTodo
 
     const removeTodo = (todoItem: string, index: number) => {
       localStorage.removeItem(todoItem)
@@ -61,7 +43,7 @@ export default defineComponent({
       todoItems.splice(0)
     }; //clearTodo
 
-    return { todoItems, addTodo, removeTodo, toggleTodo, clearTodo };
+    return { todoItems, removeTodo, toggleTodo, clearTodo };
   }, //setup
 });
 </script>
