@@ -29,10 +29,15 @@ export const store = createStore({
         [createLogger()] : [],
     state,
     mutations: {
-        addTodo(state: State, todoItem:string) {
+        addTodo(state: State, todoItem: string) {
             const obj = { completed: false, item: todoItem };
             localStorage.setItem(todoItem, JSON.stringify(obj));
             state.todoItems.push(obj);
+        },
+        removeTodo(state, payload) {
+            const { todoItem:{ item }, index } = payload
+            localStorage.removeItem(item);
+            state.todoItems.splice(index, 1);
         },
     },
     getters: {
