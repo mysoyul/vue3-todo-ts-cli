@@ -6,13 +6,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { useStore } from "vuex"
 
 export default defineComponent({
-    emits:  ['clear:todo'],
-    // { emit } - SetupContext 타입의 property
-    setup(props, { emit }) {
+    setup() {
+        const store = useStore()
+
         const clearTodo = () => {
-            emit('clear:todo')
+            store.commit("clearTodo")    
         }
         return {
             clearTodo
